@@ -8,6 +8,7 @@ namespace Perceptron
     internal class Program
     {
         private static int Dimensions { get; set; }
+        private const int EpoksNumber = 1000;
 
         public static void Main()
         {
@@ -15,18 +16,18 @@ namespace Perceptron
             var trainFilePath = Console.ReadLine();
             // Parsing training file
             var trainPoints = new List<IrisPoint>();
-            foreach (var line in File.ReadLines(trainFilePath!))
-            {
-                var values = line.Split(',');
-                var coords = new List<double>();
-                for (var i = 0; i < values.Length - 1; i++)
-                    coords.Add(double.Parse(values[i]));
-                trainPoints.Add(new IrisPoint(coords.ToArray(), values[values.Length - 1] == "Iris-versicolor" ? 1 : 0));
-            }
-            //Shuffle a list
-            Random rand = new Random();
-            trainPoints = trainPoints.OrderBy(_ => rand.Next()).ToList();
-            Dimensions = trainPoints.First().Coords.Length;
+            // Run through 
+            for (var repeat = 0; repeat < EpoksNumber; repeat++)
+                foreach (var line in File.ReadLines(trainFilePath!))
+                {
+                    var values = line.Split(',');
+                    var coords = new List<double>();
+                    for (var i = 0; i < values.Length - 1; i++)
+                        coords.Add(double.Parse(values[i]));
+                    trainPoints.Add(new IrisPoint(coords.ToArray(),
+                        values[values.Length - 1] == "Iris-versicolor" ? 1 : 0));
+                }
+            
             // Ask for Learn Rate
             Console.Write("Please type in LearnRate: ");
             var perceptron = new Perceptron(double.Parse(Console.ReadLine()?.Trim()!), Dimensions);
@@ -38,9 +39,8 @@ namespace Perceptron
                 if (answer == trainPoint.Class) continue; // if answer is true, then skip
                 // TrainPoint class is the correct answer in this example
                 for (var i = 0; i < Dimensions; i++)
-                    perceptron.Weights[i] +=
-                        perceptron.LearnRate * (trainPoint.Class - answer) * trainPoint.Coords[i]; // w' = w + a*(d-y)*x
-                perceptron.Threshold += (trainPoint.Class - answer) * perceptron.LearnRate * (-1); // O' = O + a*(d-y)
+                    perceptron.Weights[i] += perceptron.LearnRate * (trainPoint.Class - answer) * trainPoint.Coords[i]; // w' = w + a*(d-y)*x
+                perceptron.Threshold -= (trainPoint.Class - answer) * perceptron.LearnRate; // O' = O + a*(d-y)
                 Console.WriteLine(perceptron);
             }
 
@@ -81,8 +81,7 @@ namespace Perceptron
                     var coords = new List<double>();
                     for (var i = 0; i < values.Length - 1; i++)
                         coords.Add(double.Parse(values[i]));
-                    var testPoint = new IrisPoint(coords.ToArray(),
-                        values[values.Length - 1] == "Iris-versicolor" ? 1 : 0);
+                    var testPoint = new IrisPoint(coords.ToArray(), values[values.Length - 1] == "Iris-versicolor" ? 1 : 0);
                     if (perceptron.Classification(testPoint) != testPoint.Class)
                     {
                         Console.WriteLine("Bad point " + testPoint);
@@ -90,7 +89,7 @@ namespace Perceptron
                     }
                     allResults++;
                 }
-                Console.WriteLine(badResults / allResults * 100 + "% of good predicitions");
+                Console.WriteLine(badResults / allResults * 100 + "% of bad predicitions");
             }
         }
     }

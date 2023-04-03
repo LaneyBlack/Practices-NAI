@@ -26,7 +26,7 @@ public class Perceptron
         double net = 0;
         for (var i = 0; i < Weights.Length; i++)
             net += point.Coords[i] * Weights[i];
-        return net > Threshold ? 1 : 0;
+        return net >= Threshold ? 1 : 0;
     }
 
     public override string ToString()
