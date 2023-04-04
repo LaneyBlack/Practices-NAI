@@ -31,6 +31,6 @@ public class Perceptron
 
     public override string ToString()
     {
-        return "Perceptron " + Weights[0] + "..." + Weights[1] + " - " + Threshold;
+        return "Perceptron " + Weights[0] + "..." + Weights[Weights.Length-1] + " - " + Threshold;
     }
 }

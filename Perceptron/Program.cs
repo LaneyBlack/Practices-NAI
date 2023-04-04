@@ -9,7 +9,6 @@ namespace Perceptron
     {
         private static int Dimensions { get; set; }
         private const int EpoksNumber = 1000;
-
         public static void Main()
         {
             Console.Write("Please input file with train-set (csv format): ");
@@ -27,7 +26,7 @@ namespace Perceptron
                     trainPoints.Add(new IrisPoint(coords.ToArray(),
                         values[values.Length - 1] == "Iris-versicolor" ? 1 : 0));
                 }
-            
+            Dimensions = trainPoints.First().Coords.Length;
             // Ask for Learn Rate
             Console.Write("Please type in LearnRate: ");
             var perceptron = new Perceptron(double.Parse(Console.ReadLine()?.Trim()!), Dimensions);
@@ -40,8 +39,7 @@ namespace Perceptron
                 // TrainPoint class is the correct answer in this example
                 for (var i = 0; i < Dimensions; i++)
                     perceptron.Weights[i] += perceptron.LearnRate * (trainPoint.Class - answer) * trainPoint.Coords[i]; // w' = w + a*(d-y)*x
-                perceptron.Threshold -= (trainPoint.Class - answer) * perceptron.LearnRate; // O' = O + a*(d-y)
-                Console.WriteLine(perceptron);
+                perceptron.Threshold -= (trainPoint.Class - answer) * perceptron.LearnRate; // O' = O - a*(d-y)
             }
 
             double badResults = 0, allResults = 0;
@@ -56,7 +54,7 @@ namespace Perceptron
                 {
                     case 1:
                     {
-                        Console.Write("Please type test-set file path: ");
+                        Console.Write("Please input file with test-set: ");
                         lines = File.ReadLines(Console.ReadLine()!.Trim());
                         break;
                     }
@@ -89,7 +87,8 @@ namespace Perceptron
                     }
                     allResults++;
                 }
-                Console.WriteLine(badResults / allResults * 100 + "% of bad predicitions");
+                Console.WriteLine((1-badResults / allResults) * 100 + "% of good predictions");
+                // Console.WriteLine(badResults / allResults * 100 + "% of bad predictions");
             }
         }
     }
