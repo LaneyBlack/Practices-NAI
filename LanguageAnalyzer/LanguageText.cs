@@ -16,7 +16,7 @@
 
         public override string ToString()
         {
-            return Language + " - " + Letters.ToString();
+            return Language + " - " + string.Join(",",Letters);
         }
     }
 }

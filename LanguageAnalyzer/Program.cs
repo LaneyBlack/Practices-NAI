@@ -7,7 +7,7 @@ namespace LanguageAnalyzer
 {
     internal class Program
     {
-        private const int EpoksNumber = 1000;
+        private const int EpoksNumber = 100000;
 
         public static void Main()
         {
@@ -46,13 +46,12 @@ namespace LanguageAnalyzer
                             continue;
                         // TrainPoint class is the correct answer in this example
                         for (var i = 0; i < perceptron.Weights.Length; i++)
-                            perceptron.Weights[i] += perceptron.LearnRate * (@class - classification) *
-                                                     trainText.Letters[i]; // w' = w + a*(d-y)*x
+                            perceptron.Weights[i] += perceptron.LearnRate * (@class - classification) * trainText.Letters[i]; // w' = w + a*(d-y)*x
                         perceptron.Threshold -= (@class - classification) * perceptron.LearnRate; // O' = O - a*(d-y)
                     }
                 }
 
-            int badResults = 0, allResults = 0;
+            double badResults = 0, allResults = 0;
             while (true)
             {
                 Console.WriteLine("Please select one option: \t1)test-set;\n" +
@@ -84,6 +83,7 @@ namespace LanguageAnalyzer
 
                 foreach (var line in lines)
                 {
+                    bool isRight = true;
                     //Creating point
                     var values = line.Split(',');
                     var testText = new LanguageText(values[1], values[0]);
@@ -93,11 +93,13 @@ namespace LanguageAnalyzer
                         if ((perceptron.Language == testText.Language && answer == 0) ||
                             (perceptron.Language != testText.Language && answer == 1))
                         {
-                            Console.WriteLine("Bad classification for tex " + testText);
-                            badResults++;
+                            Console.WriteLine("Bad classification for text " + testText);
+                            isRight = false;
                         }
                     }
 
+                    if (isRight==false)
+                        badResults++;
                     allResults++;
                 }
 

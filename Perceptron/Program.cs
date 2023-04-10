@@ -88,7 +88,6 @@ namespace Perceptron
                     allResults++;
                 }
                 Console.WriteLine((1-badResults / allResults) * 100 + "% of good predictions");
-                // Console.WriteLine(badResults / allResults * 100 + "% of bad predictions");
             }
         }
     }
