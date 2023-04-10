@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perceptron", "Perceptron\Pe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Knn", "KNN\Knn.csproj", "{D1819898-9B0A-4493-AA5B-C5AAF47E6147}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageAnalyzer", "LanguageAnalyzer\LanguageAnalyzer.csproj", "{C7E15F24-89B9-4BCE-A2FE-425365AACAC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,5 +16,9 @@ Global
 		{B033C6FD-EEB6-4D3E-A253-C25141F730E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B033C6FD-EEB6-4D3E-A253-C25141F730E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B033C6FD-EEB6-4D3E-A253-C25141F730E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7E15F24-89B9-4BCE-A2FE-425365AACAC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7E15F24-89B9-4BCE-A2FE-425365AACAC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7E15F24-89B9-4BCE-A2FE-425365AACAC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7E15F24-89B9-4BCE-A2FE-425365AACAC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
