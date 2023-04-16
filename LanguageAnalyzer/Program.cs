@@ -2,26 +2,29 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 
 namespace LanguageAnalyzer
 {
     internal class Program
     {
-        private const int EpoksNumber = 100000;
+        private const int EpoksNumber = 10_000;
 
         public static void Main()
         {
-            Console.Write("Please input file with train-set (csv format): ");
-            var trainFilePath = Console.ReadLine();
+            // --------------------------- Hand input ---------------------------
+            // Console.Write("Please input file with train-set (csv format): ");
+            // var trainFilePath = Console.ReadLine();
+            var trainFilePath = "C:\\PJATK\\4th\\NAI\\CwiczeniaNAI\\LanguageAnalyzer\\Data\\lang.train.csv";
             // Parsing training file
             var trainTexts = new List<LanguageText>();
-            var languageOptions = new Dictionary<string, int>();
+            var languageOptions = new HashSet<string>();
             // Run through 
             foreach (var line in File.ReadLines(trainFilePath!))
             {
                 var values = line.Split(new[] { "," }, 2, StringSplitOptions.None);
-                if (!languageOptions.ContainsKey(values[0]))
-                    languageOptions.Add(values[0], languageOptions.Count + 1);
+                if (!languageOptions.Contains(values[0]))
+                    languageOptions.Add(values[0]);
                 trainTexts.Add(new LanguageText(values[1], values[0]));
             }
 
@@ -30,26 +33,25 @@ namespace LanguageAnalyzer
             var learnRate = double.Parse(Console.ReadLine()?.Trim()!);
             var perceptronList = new List<Perceptron>();
             foreach (var languageOption in languageOptions)
-                perceptronList.Add(new Perceptron(learnRate, languageOption.Key, 26));
+                perceptronList.Add(new Perceptron(learnRate, languageOption, 26));
             // Go through train set
             for (var repeat = 0; repeat < EpoksNumber; repeat++)
+            {
                 foreach (var trainText in trainTexts)
                 {
                     foreach (var perceptron in perceptronList)
                     {
-                        // Classification
-                        var classification = perceptron.Classification(trainText);
-                        var @class = perceptron.Language == trainText.Language ? 1 : 0;
-                        // if answer is true, then skip
-                        if ((perceptron.Language != trainText.Language && classification == 0) ||
-                            (perceptron.Language == trainText.Language && classification == 1))
-                            continue;
-                        // TrainPoint class is the correct answer in this example
-                        for (var i = 0; i < perceptron.Weights.Length; i++)
-                            perceptron.Weights[i] += perceptron.LearnRate * (@class - classification) * trainText.Letters[i]; // w' = w + a*(d-y)*x
-                        perceptron.Threshold -= (@class - classification) * perceptron.LearnRate; // O' = O - a*(d-y)
+                        perceptron.Train(trainText);
                     }
                 }
+            }
+
+            //Normalise all perceptrons
+            foreach (var perceptron in perceptronList)
+            {
+                Console.WriteLine(perceptron);
+                perceptron.Normalise();
+            }
 
             double badResults = 0, allResults = 0;
             while (true)
@@ -63,8 +65,10 @@ namespace LanguageAnalyzer
                 {
                     case 1:
                     {
-                        Console.Write("Please input file with test-set: ");
-                        lines = File.ReadLines(Console.ReadLine()!.Trim());
+                        // --------------------------- Hand input ---------------------------
+                        // Console.Write("Please input file with test-set: ");
+                        // lines = File.ReadLines(Console.ReadLine()!.Trim());
+                        lines = File.ReadLines("C:\\PJATK\\4th\\NAI\\CwiczeniaNAI\\LanguageAnalyzer\\Data\\lang.test.csv");
                         break;
                     }
                     case 2:
@@ -87,19 +91,28 @@ namespace LanguageAnalyzer
                     //Creating point
                     var values = line.Split(',');
                     var testText = new LanguageText(values[1], values[0]);
+                    testText.Normalise();
+                    var maxActivationPerceptron = new Tuple<double, Perceptron>(
+                        perceptronList.First().Activation(testText),
+                        perceptronList.First()
+                        );
+                    // Aby klasyfikować język tekstu, wybieramy perceptron z maksymalną aktywacją.
                     foreach (var perceptron in perceptronList)
                     {
-                        var answer = perceptron.Classification(testText);
-                        if ((perceptron.Language == testText.Language && answer == 0) ||
-                            (perceptron.Language != testText.Language && answer == 1))
+                        var curActivation = perceptron.Activation(testText);
+                        if (maxActivationPerceptron.Item1 < curActivation)
                         {
-                            Console.WriteLine("Bad classification for text " + testText);
-                            isRight = false;
+                            maxActivationPerceptron = new Tuple<double, Perceptron>(curActivation, perceptron);
                         }
                     }
-
-                    if (isRight==false)
+                    
+                    var answer = maxActivationPerceptron.Item2.Classification(testText);
+                    var actualAnswer = maxActivationPerceptron.Item2.Language == testText.Language ? 1 : 0;
+                    if (actualAnswer!=answer)
+                    {
+                        Console.WriteLine($"Bad classification for text {testText} using {maxActivationPerceptron.Item2}");
                         badResults++;
+                    }
                     allResults++;
                 }
 
