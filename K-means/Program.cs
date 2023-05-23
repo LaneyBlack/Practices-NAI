@@ -29,7 +29,7 @@ namespace K_means
                 points.Add(new Point(values));
             }
 
-            // Init centroids
+            // Init centroids using random
             Random random = new Random();
             for (int i = 0; i < int.Parse(args[1]); i++)
             {
@@ -40,7 +40,7 @@ namespace K_means
                 centroidGroups.Add(new Point(coords, "Centroid" + i), new List<Point>());
             }
 
-            // Find Centroids
+            // Assign Point to Centroids and MoveThem 
             bool stop = true;
             int iteration = 0, maxIteration = int.Parse(args[2]);
             while (stop && iteration < maxIteration)

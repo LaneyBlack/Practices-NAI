@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageAnalyzer", "Languag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K-means", "K-means\K-means.csproj", "{0A9B82E1-7EC0-4882-A3AE-6D2D624C2BA6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Knapsack", "Knapsack\Knapsack.csproj", "{F39950D5-7328-42CD-9C46-D55DE2C4904C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,5 +28,11 @@ Global
 		{0A9B82E1-7EC0-4882-A3AE-6D2D624C2BA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A9B82E1-7EC0-4882-A3AE-6D2D624C2BA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A9B82E1-7EC0-4882-A3AE-6D2D624C2BA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1819898-9B0A-4493-AA5B-C5AAF47E6147}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1819898-9B0A-4493-AA5B-C5AAF47E6147}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F39950D5-7328-42CD-9C46-D55DE2C4904C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F39950D5-7328-42CD-9C46-D55DE2C4904C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F39950D5-7328-42CD-9C46-D55DE2C4904C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F39950D5-7328-42CD-9C46-D55DE2C4904C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

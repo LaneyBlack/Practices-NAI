@@ -21,6 +21,7 @@ namespace Knn
             Console.Write("Please type in the kNN variable: ");
             var kNN = int.Parse(Console.ReadLine()?.Trim() ?? throw new InvalidOperationException());
             var fLines = File.ReadLines(args[0]); // File lines
+            // var fLines = File.ReadLines(Path.Combine(Environment.CurrentDirectory, args[0])); // File lines
             var trainValues = new HashSet<Point>(); // Creating HashSet of Training points. They must be unique
             foreach (var line in fLines) // Parsing the training file
             {
