@@ -20,9 +20,9 @@ public class Perceptron
         for (var i = 0; i < dimensions; i++)
             // Weights[i] = random.NextDouble() * 10 - 5;
             Weights[i] = 0;
-        Threshold = random.NextDouble() * 5;
+        // Threshold = random.NextDouble() * 5;
         // --------------------------- U can always modify Weights and Threshold ---------------------------
-        // Threshold = 0;
+        Threshold = 1;
     }
 
     public int Classification(LanguageText lang)

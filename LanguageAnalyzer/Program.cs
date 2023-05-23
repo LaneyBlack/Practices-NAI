@@ -8,7 +8,7 @@ namespace LanguageAnalyzer
 {
     internal class Program
     {
-        private const int EpoksNumber = 10_000;
+        private const int EpoksNumber = 1_000;
 
         public static void Main()
         {

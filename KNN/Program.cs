@@ -17,6 +17,7 @@ namespace Knn
                                   "project.exe train-set");
                 throw new ArgumentException("Incorrect argument input!");
             }
+
             Console.Write("Please type in the kNN variable: ");
             var kNN = int.Parse(Console.ReadLine()?.Trim() ?? throw new InvalidOperationException());
             var fLines = File.ReadLines(args[0]); // File lines
@@ -29,7 +30,7 @@ namespace Knn
                     coords.Add(double.Parse(values[i]));
                 trainValues.Add(new Point(coords, values[values.Length - 1]));
             }
-            
+
             var allTests = 0;
             var working = true;
             while (working) // Interaction with user
@@ -51,8 +52,8 @@ namespace Knn
                     case 2:
                     {
                         Console.Write("Please put your Point using this example:\n" +
-                                          "\t[7.3,...,1.8,GroupName]\n" +
-                                          "\tDimensions are " + trainValues.First().Coordinates.Count + ": ");
+                                      "\t[7.3,...,1.8,GroupName]\n" +
+                                      "\tDimensions are " + trainValues.First().Coordinates.Count + ": ");
                         fLines = new[] { Console.ReadLine() };
                         break;
                     }
@@ -124,7 +125,7 @@ namespace Knn
             }
 
             // if (kNN > 3 && counter.Last().Value / kNN > 0.75) // assurance > 75% => add point into the training collection
-                // trainValues.Add(currentPoint);
+            // trainValues.Add(currentPoint);
         }
     }
 
@@ -143,7 +144,7 @@ namespace Knn
         {
             if (Coordinates.Count != 0)
                 return "Point{[" + Coordinates[0] + ".." + Coordinates[Coordinates.Count - 1] + "]" + Group + "}";
-            return "Point{[]" + Group +"}";
-    }
+            return "Point{[]" + Group + "}";
+        }
     }
 }

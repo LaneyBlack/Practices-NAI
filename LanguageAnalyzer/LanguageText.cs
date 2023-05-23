@@ -19,7 +19,7 @@ namespace LanguageAnalyzer
         
         public void Normalise()
         {
-            var norm = Letters.Sum();
+            var norm = Letters.Sum(d => d*d);
             norm = Math.Sqrt(norm);
             for (var i = 0; i < Letters.Length; i++)
                 Letters[i] /= norm;
